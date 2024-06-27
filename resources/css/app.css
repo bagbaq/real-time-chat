@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.site-content {
+    min-height: calc(100vh - 70px);
+}
+
+footer {
+    margin-top: 0;
+    margin-bottom: -10px;
+    height: 70px;
+}
+
+.message-box {
+    display: flex;
+    font-size: 20px;
+}
+
+.message-box .message-author {
+    color: white;
+    font-weight: normal;
+}
+
+.message-box .message-content {
+    font-weight: lighter;
+    margin-left: 3px;
+}
