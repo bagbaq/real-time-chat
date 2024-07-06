@@ -16,14 +16,16 @@ class messageEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $image;
     public $username;
     public $roomNumber;
     /**
      * Create a new event instance.
      */
-    public function __construct($message, $username, $roomNumber)
+    public function __construct($message, $image, $username, $roomNumber)
     {
         $this->message = $message;
+        $this->image = $image;
         $this->username = $username;
         $this->roomNumber = $roomNumber;
     }
@@ -41,6 +43,6 @@ class messageEvent implements ShouldBroadcastNow
     }
 
     public function broadcastWith(): array {
-        return ['message' => $this->message, 'username' => $this->username];
+        return ['message' => $this->message, 'image' => $this->image, 'username' => $this->username];
     }
 }

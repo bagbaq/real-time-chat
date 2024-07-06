@@ -19,10 +19,24 @@ footer {
 
 .message-box .message-author {
     color: white;
-    font-weight: normal;
+    font-weight: 500;
 }
 
 .message-box .message-content {
     font-weight: lighter;
     margin-left: 3px;
+}
+
+.message-content img {
+    width: 300px;
+    max-height: 500px;
+    margin-top: 8px;
+    transition: 250ms;
+    border-radius: 5px;
+    object-fit: contain;
+    background-color: black;
+}
+
+.message-content img:hover {
+    filter: drop-shadow(1px 3px 5px black);
 }

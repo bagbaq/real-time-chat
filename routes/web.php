@@ -10,15 +10,18 @@ Route::get('/', function () {
 
 Route::controller(RoomController::class)->group(function () {
     Route::get('/r/{number}', 'join_room')->name('join_room');
+    Route::post('/upload_image', 'upload_image')->name('upload_image');
 });
 
 Route::post('/r/{number}/message/', function ($number) {
     request()->validate([
-       'message' => 'required|string|alpha_num|max:255',
+       'message' => 'required_without:image|string|alpha_num|max:255',
+       'image' => 'required_without:message|max:500',
        'username' => 'required|ipv4'
     ]);
 
-    event(new messageEvent(Request()->input('message'), request()->username, $number));
+    event(new messageEvent(request()->input('message') ?? null, request()->input('image') ?? null, request()->username, $number));
 
     return 'done';
 });
+
