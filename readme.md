@@ -2,14 +2,14 @@
 
 My second project using **Laravel, Tailwind, Reverb and Echo**
 
-I used Laravel Reverb on server side and Laravel Echo on client slide. 
+I used Laravel Reverb on server side and Laravel Echo on client slide.
 
-### 🌟 Key Features
+## 🌟 Key Features
 - room based chat
 - using IP instead of username
 - uploading images
 
-### 🧰 How to configure and start the app?
+## 🧰 How to configure and start the app?
 
 1. Clone the repository `git clone https://github.com/bagbaq/real-time-chat.git`
 2. Run **npm install**
@@ -23,7 +23,7 @@ I used Laravel Reverb on server side and Laravel Echo on client slide.
 2. **npm run dev** (or npm run build on production environments)
 3. **php artisan reverb:start**
 
-### 📝 Todo
+## 📝 Todo
 - Implement node.js for more performance
 - Show online people count at home page and rooms
 - Improve website design
