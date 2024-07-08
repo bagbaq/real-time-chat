@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Laravel\Reverb\Certificate;
 
 class messageEvent implements ShouldBroadcastNow
 {
@@ -38,7 +39,7 @@ class messageEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('room-' . $this->roomNumber),
+            new PresenceChannel('room-' . $this->roomNumber),
         ];
     }
 

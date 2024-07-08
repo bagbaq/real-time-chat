@@ -12,7 +12,7 @@
 
         <div class="shadow-2xl bg-gray-400 mt-5 p-3 w-full h-96 max-h-96 overflow-auto" id="messages">
             <div class="message-box">
-                <p class="message-author">Admin:</p>
+                <p class="message-author special">Admin:</p>
                 <p class="message-content">Chat with random people and have fun!</p>
             </div>
         </div>
@@ -24,6 +24,11 @@
             <div class="flex flex-col w-full">
                 <input id="message-box" type="text" class="w-full px-3 py-1 outline-none" placeholder="Say hello...">
                 <button id="send-btn" class="p-2 bg-green-700 hover:bg-green-600 transition text-white mt-2 w-full">Send</button>
+            </div>
+        </div>
+        <div class="w-full flex justify-center">
+            <div class="mt-5 bg-white text-green-600 w-32 font-bold text-center px-3 rounded-xl">
+                <span id="userCount">?</span> Online Users
             </div>
         </div>
     </div>
@@ -40,7 +45,10 @@
             const room = "{{ $room }}";
             const csrf_token = document.querySelector("meta[name='csrf-token']").content;
             const messageContainer = document.getElementById("messages");
+            const userCountElement = document.getElementById("userCount");
             const base_url = "{{ url('/') }}"
+
+            var onlineCount = 0;
 
             document.addEventListener("keypress", function (event) {
                 if (event.keyCode == 13) {
@@ -103,19 +111,35 @@
                             imageInput.value = null;
                         }
                         else {
-                            messageContainer.innerHTML += '<div class="message-box"> <p class="message-author">Admin:</p> <p class="message-content">Image couldn\'t uploaded, make sure your image\'s size below 3MB.</p> </div>'
+                            messageContainer.innerHTML += '<div class="message-box"> <p class="message-author special">Admin:</p> <p class="message-content">Image couldn\'t uploaded, make sure your image\'s size below 3MB.</p> </div>'
                             messageContainer.scrollTop = messageContainer.scrollHeight;
                         }
                     }).catch(function (error) {
-                        messageContainer.innerHTML += '<div class="message-box"> <p class="message-author">Admin:</p> <p class="message-content">Image couldn\'t uploaded. ' + error + '</p> </div>'
+                        messageContainer.innerHTML += '<div class="message-box"> <p class="message-author special">Admin:</p> <p class="message-content">Image couldn\'t uploaded. ' + error + '</p> </div>'
                         messageContainer.scrollTop = messageContainer.scrollHeight;
                     });
                 }
             });
 
             setTimeout(function () {
-                window.Echo
-                    .channel("room-" + room)
+                window.echo
+                    .join("room-" + room)
+                    .here(function (users) {
+                        userCount = users.length;
+                        userCountElement.innerHTML = userCount;
+                    })
+                    .joining(function (user) {
+                        messageContainer.innerHTML += '<div class="message-box"> <p class="message-author special">Room ' + room + ':</p> <p class="message-content">' + user.ip + ' joined room</p> </div>'
+                        messageContainer.scrollTop = messageContainer.scrollHeight;
+                        userCount++;
+                        userCountElement.innerHTML = userCount;
+                    })
+                    .leaving(function (user) {
+                        messageContainer.innerHTML += '<div class="message-box"> <p class="message-author special">Room ' + room + ':</p> <p class="message-content">' + user.ip + ' leaved room</p> </div>'
+                        messageContainer.scrollTop = messageContainer.scrollHeight;
+                        userCount--;
+                        userCountElement.innerHTML = userCount;
+                    })
                     .listen('messageEvent', (e) => {
                         if (e.image != null) {
                             var imageUrl = base_url + '/' + e.image;

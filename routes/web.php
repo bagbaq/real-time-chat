@@ -24,4 +24,3 @@ Route::post('/r/{number}/message/', function ($number) {
 
     return 'done';
 });
-
